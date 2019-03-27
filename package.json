@@ -1,0 +1,37 @@
+{
+  "name": "cublick_ingest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "npm run nodemon",
+    "dev": "cross-env NODE_ENV=development node ./api.js",
+    "nodemon": "nodemon --exec npm run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hoangdktd/cublick_ingest.git"
+  },
+  "author": "hoangdktd",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hoangdktd/cublick_ingest/issues"
+  },
+  "homepage": "https://github.com/hoangdktd/cublick_ingest#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "express-status-monitor": "^1.2.3",
+    "express-validator": "^5.3.1",
+    "fs": "0.0.1-security",
+    "lusca": "^1.6.1",
+    "mongoose": "^5.4.20",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.10",
+    "path": "^0.12.7",
+    "request": "^2.88.0"
+  }
+}

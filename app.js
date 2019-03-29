@@ -33,25 +33,18 @@ const cublickIngestConfig = require('./config/config');
  */
 const app = express();
 
-/**
- * Connect to MongoDB.
- */
-// mongoose.set('useFindAndModify', false);
-// mongoose.set('useCreateIndex', true);
-// mongoose.set('useNewUrlParser', true);
-// mongoose.connect(process.env.MONGODB_URI);
-// mongoose.connection.on('error', (err) => {
-//   console.error(err);
-//   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
-//   process.exit();
-// });
-
 global.CUBLICK_INGEST = {};
 
 global.CUBLICK_INGEST.SAminId = '';
 global.CUBLICK_INGEST.AnonymousId = '';
 global.CUBLICK_INGEST.rootPath = __dirname;
 global.CUBLICK_INGEST.Config = {};
+
+/**
+ * Connect to MongoDB.
+ */
+mongoose.Promise = global.Promise;
+mongoose.connect(cublickIngestConfig.mongodb.uri);
 
 // HTTP Logger
 const logDir = path.join(global.CUBLICK_INGEST.rootPath, 'logs');

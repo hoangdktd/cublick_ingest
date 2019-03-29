@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "npm run nodemon",
-    "dev": "cross-env NODE_ENV=development node ./api.js",
+    "dev": " node ./app.js",
     "nodemon": "nodemon --exec npm run dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,6 +21,7 @@
   "homepage": "https://github.com/hoangdktd/cublick_ingest#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "cron": "^1.7.0",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "express-session": "^1.15.6",

@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 
 const AudienceLogSchema = new mongoose.Schema({
     device: {
-        type: Schema.Types.ObjectId,
+        type: String,
         required: true
     },
     content: {
-        type: Schema.Types.ObjectId,
+        type: String,
         required: true
     },
     startDate:{
@@ -30,8 +30,7 @@ const AudienceLogSchema = new mongoose.Schema({
     gender: String,
     objectType: String,
     status:{
-        type: String,
-        required: true
+        type: String
     },
     createdDate: {
         type: Date,

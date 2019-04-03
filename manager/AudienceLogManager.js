@@ -29,7 +29,6 @@ module.exports = {
 
             AudienceLog.find({"createdDate": {"$gte": queryContent.startDate, "$lte": queryContent.endDate}}, function (error, results) {
                 if (error) {
-                    console.log(error);
                     return callback(520, 'get list user', 500, null);
                 }
                 return callback(null, null, 200, results);

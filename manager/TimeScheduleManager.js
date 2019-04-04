@@ -41,7 +41,7 @@ module.exports = {
 
     getOneNewest: function( callback){
         try {
-            TimeSchedule.findOne({}, {}, { sort: { 'created_at' : -1 } }, function(error, timeScheduleInfo){
+            TimeSchedule.findOne({}, {}, { sort: { 'endDate' : -1 } }, function(error, timeScheduleInfo){
                 if (error) {
                     return callback(520, 'find time schedule', 500, null);
                 }

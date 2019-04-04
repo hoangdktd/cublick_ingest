@@ -4,6 +4,7 @@ const TimeScheduleManager = require('../manager/TimeScheduleManager');
 const oRest = require('../utils/restware');
 const oUtils = require('../utils/utils');
 const cronJob = require('cron').CronJob;
+const constant = require('../utils/constant');
 module.exports = {
 
 
@@ -30,8 +31,8 @@ module.exports = {
         // const oAudienceLogData = req.body || '';
 
         const oAudienceLog = {};
-        oAudienceLog.device = Math.floor(Math.random() * 100);
-        oAudienceLog.content = Math.floor(Math.random() * 1000)
+        oAudienceLog.device = constant.deviceIdEnum[Math.floor(Math.random() * constant.deviceIdEnum.length)];
+        oAudienceLog.content = constant.contentIdEnum[Math.floor(Math.random() * constant.contentIdEnum.length)];
         const job = new cronJob('*/10 * * * * *',
             () => {
                 try {
@@ -44,7 +45,7 @@ module.exports = {
                     }
                     for (let index = 0; index < count; index++) {
                         oAudienceLog.startDate = Date.now();
-                        oAudienceLog.duration = Math.floor(Math.random() * 60);
+                        oAudienceLog.duration = Math.floor(Math.random() * 20);
                         oAudienceLog.contentDuration = 60;
                         oAudienceLog.createdDate = Date.now();
                         console.log(oAudienceLog);
@@ -76,7 +77,7 @@ module.exports = {
             if (errorCode) {
                 return oRest.sendError(res, errorCode, errorMessage, httpCode);
             }
-            oAudienceLog.sort((a,b) => {new Date(b.startDate) - new Date(a.startDate);}); // sorting startDate
+            oAudienceLog.sort((a,b) => {return a.startDate.getTime() - b.startDate.getTime();}); // sorting startDate
             oAudienceLog.sort((a,b) => {
                 if(a.device < b.device) { return -1; }
                 if(a.device > b.device) { return 1; }
@@ -110,7 +111,7 @@ module.exports = {
                     });
                     content = element.content;
                     device = element.device;
-                    if (element.duration > 15) {
+                    if (element.duration > constant.viewDuration) { // 15 seconds
                         view = 1;
                     } else {
                         view = 0;
@@ -119,7 +120,7 @@ module.exports = {
                     startDate = new Date(element.startDate);
                 } else {
                     impression ++;
-                    if (element.duration > 15) {
+                    if (element.duration > constant.viewDuration) { // 15 seconds
                         view ++;
                     }
                     if (index === oAudienceLog.length -1) {
@@ -152,10 +153,15 @@ module.exports = {
             const queryContent = {};
             let startDate;
             let endDate;
-            if (oTimeSchedule && endDate) {
-                startDate  =  new Date(oTimeSchedule.endDate);
+            if (oTimeSchedule && oTimeSchedule.endDate) {
+                console.log('-----------oTimeSchedule.endDate---------');
+                console.log(oTimeSchedule.endDate);
+                console.log(oTimeSchedule.endDate.getTime());
+                console.log(oTimeSchedule.endDate.getTime() + 1);
+                console.log(new Date(oTimeSchedule.endDate.getTime() + 1).getTime());
+                startDate  =  new Date(oTimeSchedule.endDate.getTime() + 1); // plus 1 miliseconds
                 endDate  =  new Date(oTimeSchedule.endDate);
-                endDate.setHours(startDate.getHours() + 1);
+                endDate.setHours(endDate.getHours() + 1);
             } else {
                 startDate = new Date();
                 startDate.setHours(startDate.getHours() - 1);
@@ -163,11 +169,16 @@ module.exports = {
             }
             queryContent.startDate = startDate;
             queryContent.endDate = endDate;
+            console.log(queryContent);
             AudienceLogManager.getAll(queryContent, (errorCode, errorMessage, httpCode, oAudienceLog) => {
                 if (errorCode) {
                     return oRest.sendError(res, errorCode, errorMessage, httpCode);
                 }
                 if (oAudienceLog.length > 0) {
+                    const oGroupedArray = oUtils.groupBy2(oAudienceLog, 'device');
+                    oAudienceLog.sort((a,b) => {
+                        return a.startDate.getTime() - b.startDate.getTime();
+                    }); // sorting startDate
                     const timeScheduleData = {
                         startDate: oAudienceLog[0].startDate,
                         endDate: oAudienceLog[oAudienceLog.length - 1].startDate,
@@ -175,15 +186,15 @@ module.exports = {
                         lastRecordId: oAudienceLog[oAudienceLog.length - 1]._id,
                         firstRecordId: oAudienceLog[0]._id
                     }
+                    console.log('oAudienceLog.length = ===   ' + oAudienceLog.length);
                     TimeScheduleManager.create( timeScheduleData, (errorCode, errorMessage, httpCode, timeSchedule) => {
                         if (errorCode) {
                             console.log(errorMessage);
                         }
                     });
-                    const oGroupedArray = oUtils.groupBy2(oAudienceLog, 'device');
                     for(let key in oGroupedArray) {
                         const groupedArray = oGroupedArray[key]
-                        groupedArray.sort((a,b) => {new Date(b.startDate) - new Date(a.startDate);}); // sorting startDate
+                        groupedArray.sort((a,b) => {return a.startDate.getTime() - b.startDate.getTime();}); // sorting startDate
                         let view = 0;
                         let impression = 0;
                         let content = '';
@@ -212,7 +223,7 @@ module.exports = {
                                 });
                                 content = element.content;
                                 device = element.device;
-                                if (element.duration > 15) {
+                                if (element.duration > constant.viewDuration) { // 15 seconds
                                     view = 1;
                                 } else {
                                     view = 0;
@@ -221,7 +232,7 @@ module.exports = {
                                 startDate = new Date(element.startDate);
                             } else {
                                 impression ++;
-                                if (element.duration > 15) {
+                                if (element.duration > constant.viewDuration) { // 15 seconds
                                     view ++;
                                 }
                                 if (index === groupedArray.length -1) {

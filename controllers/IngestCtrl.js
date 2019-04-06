@@ -76,5 +76,39 @@ module.exports = {
     get: (req, res) => {
         console.log('ingest');
         return oRest.sendSuccess(res, 'oResData', 200);
+    },
+
+    pushIngest: (deviceId, contentId, grp) => {
+        console.log('start ingest JOB: ' + Date());
+        const ingestData = deviceId + ',' + contentId + ',' + grp;
+        console.log('--------  ingestData     = ' + ingestData);
+        const options = {
+            host: cublickIngestConfig.apiRecommenderUrl,
+            path: '/ingest',
+            method: 'POST',
+            port: 8080,
+            headers: {
+                // 'Content-Type': 'application/json'
+                // 'Content-Type': 'multipart/form-data' // multiple row
+                // 'Content-Type': 'text/csv'
+                'Content-Type': 'text/plain'
+            }
+        };
+        const req = httpRequest.request(options, function (res) {
+            res.setEncoding('utf8');
+            // console.log(res);
+            res.on('data', function (chunk) {
+            });
+
+            res.on('end', function () {
+                console.log('ingest job end: ');
+            });
+        });
+
+        req.on('error', function (err) {
+            console.log('ingest job error: ' + err.message);
+        });
+        req.write(ingestData);
+        req.end();
     }
 }

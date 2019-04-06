@@ -57,7 +57,7 @@ fs.existsSync(logDir) || fs.mkdirSync(logDir);
  // get all data/stuff of the body (POST) parameters
 // parse application/json
 app.use(bodyParser.json());
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 

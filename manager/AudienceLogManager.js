@@ -12,7 +12,6 @@ module.exports = {
             oAudienceLog.contentDuration = audienceLogData.contentDuration;
             oAudienceLog.createdDate = audienceLogData.createdDate;
             oAudienceLog.save( (error) => {
-                console.log('insert audience log');
                 if (error) {
                     return callback(520, 'save log', 500, null);
                 }

@@ -181,6 +181,19 @@ module.exports = {
                     }
                     return oRest.sendSuccess(res, oGroupedArray, httpCode);
                 } else {
+                    const timeScheduleData = {
+                        startDate: queryContent.startDate,
+                        endDate: queryContent.endDate,
+                        totalRecord: 0,
+                        lastRecordId: '',
+                        firstRecordId: ''
+                    }
+                    console.log('oAudienceLog.length = ===   0');
+                    TimeScheduleManager.create( timeScheduleData, (errorCode, errorMessage, httpCode, timeSchedule) => {
+                        if (errorCode) {
+                            console.log(errorMessage);
+                        }
+                    });
                     return oRest.sendSuccess(res, [], httpCode);
                 }
             });
@@ -191,7 +204,7 @@ module.exports = {
         // const queryContent = {};
         // queryContent.startDate = new Date('2019-04-01T12:10:00Z');
         // queryContent.endDate = new Date('2019-04-02T12:20:00Z');
-        const job = new cronJob('*/2 * * * *',
+        const job = new cronJob('*/10 * * * *',
             () => {
                 TimeScheduleManager.getOneNewest( (errorCode, errorMessage, httpCode, oTimeSchedule) => {
                     if (errorCode) {
@@ -305,6 +318,19 @@ module.exports = {
                             }
                             // return oRest.sendSuccess(res, oGroupedArray, httpCode);
                         } else {
+                            const timeScheduleData = {
+                                startDate: queryContent.startDate,
+                                endDate: queryContent.endDate,
+                                totalRecord: 0,
+                                lastRecordId: '',
+                                firstRecordId: ''
+                            }
+                            console.log('oAudienceLog.length = ===   0');
+                            TimeScheduleManager.create( timeScheduleData, (errorCode, errorMessage, httpCode, timeSchedule) => {
+                                if (errorCode) {
+                                    console.log(errorMessage);
+                                }
+                            });
                             // return oRest.sendSuccess(res, [], httpCode);
                         }
                     });

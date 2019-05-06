@@ -62,5 +62,5 @@ module.exports = {
         '5bd207210c90a5472e5b51f7',
         '5bd2071c0c90a5472e5b51f4'
     ],
-    viewDuration: 15
+    viewDuration: 5
 }

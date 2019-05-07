@@ -34,7 +34,7 @@ module.exports = {
         const oAudienceLog = {};
         oAudienceLog.device = constant.deviceIdEnum[Math.floor(Math.random() * constant.deviceIdEnum.length)];
         oAudienceLog.content = constant.contentIdEnum[Math.floor(Math.random() * constant.contentIdEnum.length)];
-        const job = new cronJob('*/10 * * * * *',
+        const job = new cronJob('*/30 * * * * *', // 30 seconds
             () => {
                 try {
                     const d = new Date();
@@ -136,9 +136,9 @@ module.exports = {
                                 viewLog.device = device;
                                 viewLog.view = view;
                                 viewLog.impression = impression;
-                                viewLog.grp = Math.floor(view / impression * 1000) / 200;
+                                viewLog.grp = Math.floor(view / impression * 1000) / 1000;
                                 viewLog.startDate = new Date(startDate);
-                                console.log(Math.floor(view / impression * 1000) / 200);
+                                console.log(Math.floor(view / impression * 1000) / 1000);
                                 ViewLogManager.create( viewLog, (errorCode, errorMessage, httpCode, oViewLog) => {
                                     if (errorCode) {
                                         console.log(errorMessage);
@@ -166,7 +166,7 @@ module.exports = {
                                     viewLog.device = device;
                                     viewLog.view = view;
                                     viewLog.impression = impression;
-                                    viewLog.grp = Math.floor(view / impression * 1000) / 200;
+                                    viewLog.grp = Math.floor(view / impression * 1000) / 1000;
                                     viewLog.startDate = new Date(startDate);
                                     ViewLogManager.create( viewLog, (errorCode, errorMessage, httpCode, oViewLog) => {
                                         if (errorCode) {
@@ -204,7 +204,7 @@ module.exports = {
         // const queryContent = {};
         // queryContent.startDate = new Date('2019-04-01T12:10:00Z');
         // queryContent.endDate = new Date('2019-04-02T12:20:00Z');
-        const job = new cronJob('*/2 * * * *',
+        const job = new cronJob('*/5 * * * *', // 2 minute
             () => {
                 TimeScheduleManager.getOneNewest( (errorCode, errorMessage, httpCode, oTimeSchedule) => {
                     if (errorCode) {
@@ -273,9 +273,9 @@ module.exports = {
                                         viewLog.device = device;
                                         viewLog.view = view;
                                         viewLog.impression = impression;
-                                        viewLog.grp = Math.floor(view / impression * 1000) / 200;
+                                        viewLog.grp = Math.floor(view / impression * 1000) / 1000;
                                         viewLog.startDate = new Date(startDate);
-                                        console.log(Math.floor(view / impression * 1000) / 200);
+                                        console.log(Math.floor(view / impression * 1000) / 1000);
                                         ViewLogManager.create( viewLog, (errorCode, errorMessage, httpCode, oViewLog) => {
                                             if (errorCode) {
                                                 console.log(errorMessage);
@@ -303,7 +303,7 @@ module.exports = {
                                             viewLog.device = device;
                                             viewLog.view = view;
                                             viewLog.impression = impression;
-                                            viewLog.grp = Math.floor(view / impression * 1000) / 200;
+                                            viewLog.grp = Math.floor(view / impression * 1000) / 1000;
                                             viewLog.startDate = new Date(startDate);
                                             ViewLogManager.create( viewLog, (errorCode, errorMessage, httpCode, oViewLog) => {
                                                 if (errorCode) {

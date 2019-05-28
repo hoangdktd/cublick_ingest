@@ -112,11 +112,11 @@ module.exports = {
         req.end();
     },
 
-    postIngest: (request, res) => {
+    postIngest: (request, response) => {
         console.log('start post ingest JOB: ' + Date());
-        const deviceId = request.body.deviceId;
-        const contentId = request.body.contentId;
-        const grp = request.body.grp;
+        const deviceId = request.query.deviceId;
+        const contentId = request.query.contentId;
+        const grp = request.query.grp;
         const ingestData = deviceId + ',' + contentId + ',' + grp;
         console.log('--------  ingestData     = ' + ingestData);
         const options = {
@@ -139,6 +139,7 @@ module.exports = {
 
             res.on('end', function () {
                 console.log('ingest job end: ');
+                return oRest.sendSuccess(response, [], 200);
             });
         });
 

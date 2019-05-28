@@ -113,7 +113,7 @@ module.exports = {
     },
 
     postIngest: (request, response) => {
-        console.log('start post ingest JOB: ' + Date());
+        console.log(request.query);
         const deviceId = request.query.deviceId;
         const contentId = request.query.contentId;
         const grp = request.query.grp;

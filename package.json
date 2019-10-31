@@ -29,7 +29,7 @@
     "express-validator": "^5.3.1",
     "fs": "0.0.1-security",
     "lusca": "^1.6.1",
-    "mongoose": "^5.4.20",
+    "mongoose": "^5.7.5",
     "morgan": "^1.9.1",
     "nodemon": "^1.18.10",
     "path": "^0.12.7",
